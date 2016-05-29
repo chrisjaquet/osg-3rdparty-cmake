@@ -26,6 +26,8 @@ IF (MSVC)
 		SET(COMPILER "v120") # Visual Studio 2013
 	ELSEIF (${MSVC_VERSION} EQUAL 1900)
 		SET(COMPILER "v140") # Visual Studio 2015
+    ELSE()
+        MESSAGE(FATAL_ERROR "Unkown version of Visual Studio Detected")
 	ENDIF()
 ENDIF()
 
