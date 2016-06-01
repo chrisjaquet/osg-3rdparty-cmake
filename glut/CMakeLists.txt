@@ -1,6 +1,11 @@
+IF(NOT USE_GLUT)
+    return()
+ENDIF()
+
 PROJECT(glut C)
 
 SET(TARGET_LIB glut32)
+SET(GLUT_SOURCE_DIR CACHE PATH "Path where to find GLUT source")
 
 
 SET(GLUT_PUBLIC_HEADERS

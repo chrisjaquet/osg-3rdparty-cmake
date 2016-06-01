@@ -1,7 +1,11 @@
+IF(NOT USE_CURL)
+    return()
+ENDIF()
+
 PROJECT(curl C)
 
 SET(TARGET_LIB libcurl)
-
+SET(CURL_SOURCE_DIR CACHE PATH "Path where to find cURL source")
 
 SET(CURL_PUBLIC_HEADERS
     ${CURL_SOURCE_DIR}/include/curl/curl.h

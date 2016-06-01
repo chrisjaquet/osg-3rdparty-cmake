@@ -1,6 +1,11 @@
+IF(NOT USE_FREETYPE)
+    return()
+ENDIF()
+
 PROJECT(freetype C)
 
 SET(TARGET_LIB freetype)
+SET(FREETYPE_SOURCE_DIR CACHE PATH "Path where to find FREETYPE source")
 
 # Make sure that we use the correct freetype headers directory
 UNSET(FREETYPE_HEADERS_DIR CACHE)

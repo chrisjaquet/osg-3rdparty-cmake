@@ -1,7 +1,16 @@
+IF(NOT USE_MINIZIP)
+    return()
+ENDIF()
+
 PROJECT(minizip C)
 
 SET(TARGET_LIB minizip)
+SET(MINIZIP_SOURCE_DIR CACHE PATH "Path where to find MINIZIP source")
 
+# Check dependencies for MINIZIP
+IF(NOT ZLIB_SOURCE_DIR)
+    MESSAGE(FATAL_ERROR "Error: MINIZIP depends on ZLIB and no ZLIB path has been set")
+ENDIF()
 
 SET(MINIZIP_PUBLIC_HEADERS
     ${MINIZIP_SOURCE_DIR}/zip.h

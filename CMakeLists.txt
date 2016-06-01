@@ -37,81 +37,30 @@ ENDIF()
 
 SET(dirname "${COMPILER}-${BITS}")
 
-#Set directories
+# Set directories
 SET(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/3rdParty/${dirname}/bin")
 SET(ARCHIVE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/3rdParty/${dirname}/lib")
 SET(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/lib")
 SET(INCLUDE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/3rdParty/${dirname}/include")
 
-
-SET(ZLIB_SOURCE_DIR CACHE PATH "Path where to find ZLIB source")
-SET(LIBPNG_SOURCE_DIR CACHE PATH "Path where to find LIBPNG source")
-SET(LIBJPEG_SOURCE_DIR CACHE PATH "Path where to find LIBJPEG source")
-SET(LIFTIFF_SOURCE_DIR CACHE PATH "Path where to find LIFTIFF source")
-SET(FREETYPE_SOURCE_DIR CACHE PATH "Path where to find FREETYPE source")
-SET(GLUT_SOURCE_DIR CACHE PATH "Path where to find GLUT source")
-SET(GIFLIB_SOURCE_DIR CACHE PATH "Path where to find GIFLIB source")
-SET(MINIZIP_SOURCE_DIR CACHE PATH "Path where to find MINIZIP source")
-SET(CURL_SOURCE_DIR CACHE PATH "Path where to find cURL source")
-
-# Check dependencies for LIBPNG
-IF (LIBPNG_SOURCE_DIR)
-    IF(NOT ZLIB_SOURCE_DIR)
-        MESSAGE(FATAL_ERROR "Error: LIBPNG depends on ZLIB and no ZLIB path has been set")
-    ENDIF()
-ENDIF ()
-
-# Check dependencies for LIBTIFF
-IF(LIFTIFF_SOURCE_DIR)
-    IF(NOT ZLIB_SOURCE_DIR)
-        MESSAGE(FATAL_ERROR "Error: LIBTIFF depends on ZLIB and no ZLIB path has been set")
-    ENDIF()
-
-    IF(NOT LIBJPEG_SOURCE_DIR)
-        MESSAGE(FATAL_ERROR "Error: LIBTIFF depends on LIBJPEG and no LIBJPEG path has been set")
-    ENDIF()
-ENDIF()
-
-# Check dependencies for MINIZIP
-IF (MINIZIP_SOURCE_DIR)
-    IF(NOT ZLIB_SOURCE_DIR)
-        MESSAGE(FATAL_ERROR "Error: MINIZIP depends on ZLIB and no ZLIB path has been set")
-    ENDIF()
-ENDIF ()
+SET(USE_ZLIB ON CACHE BOOL "Use and compile ZLIB source")
+SET(USE_LIBPNG OFF CACHE BOOL "Use and compile LIBPNG source")
+SET(USE_LIBJPEG OFF CACHE BOOL "Use and compile LIBJPEG source")
+SET(USE_LIFTIFF OFF CACHE BOOL "Use and compile LIFTIFF source")
+SET(USE_FREETYPE OFF CACHE BOOL "Use and compile FREETYPE source")
+SET(USE_GLUT OFF CACHE BOOL "Use and compile GLUT source")
+SET(USE_GIFLIB OFF CACHE BOOL "Use and compile GIFLIB source")
+SET(USE_MINIZIP OFF CACHE BOOL "Use and compile MINIZIP source")
+SET(USE_CURL OFF CACHE BOOL "Use and compile cURL source")
 
 # Add libraries
-IF (ZLIB_SOURCE_DIR)
-    ADD_SUBDIRECTORY(zlib)
-ENDIF()
+ADD_SUBDIRECTORY(zlib)
+ADD_SUBDIRECTORY(libpng)
+ADD_SUBDIRECTORY(libjpeg)
+ADD_SUBDIRECTORY(libtiff)
+ADD_SUBDIRECTORY(freetype)
+ADD_SUBDIRECTORY(glut)
+ADD_SUBDIRECTORY(giflib)
+ADD_SUBDIRECTORY(minizip)
+ADD_SUBDIRECTORY(curl)
 
-IF (LIBPNG_SOURCE_DIR)
-    ADD_SUBDIRECTORY(libpng)
-ENDIF()
-
-IF (LIBJPEG_SOURCE_DIR)
-    ADD_SUBDIRECTORY(libjpeg)
-ENDIF()
-
-IF (LIFTIFF_SOURCE_DIR)
-    ADD_SUBDIRECTORY(libtiff)
-ENDIF()
-
-IF (FREETYPE_SOURCE_DIR)
-    ADD_SUBDIRECTORY(freetype)
-ENDIF()
-
-IF (GLUT_SOURCE_DIR)
-    ADD_SUBDIRECTORY(glut)
-ENDIF()
-
-IF (GIFLIB_SOURCE_DIR)
-    ADD_SUBDIRECTORY(giflib)
-ENDIF()
-
-IF (MINIZIP_SOURCE_DIR)
-    ADD_SUBDIRECTORY(minizip)
-ENDIF()
-
-IF (CURL_SOURCE_DIR)
-    ADD_SUBDIRECTORY(curl)
-ENDIF()

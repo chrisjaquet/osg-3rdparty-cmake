@@ -1,6 +1,11 @@
+IF(NOT USE_GIFLIB)
+    return()
+ENDIF()
+
 PROJECT(giflib C)
 
 SET(TARGET_LIB giflib)
+SET(GIFLIB_SOURCE_DIR CACHE PATH "Path where to find GIFLIB source")
 
 SET(GIFLIB_VERSION_FILE "${GIFLIB_SOURCE_DIR}/lib/gif_lib.h")
     

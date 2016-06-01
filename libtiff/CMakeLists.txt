@@ -1,7 +1,20 @@
+IF(NOT USE_LIBTIFF)
+    return()
+ENDIF()
+
 PROJECT(libtiff C)
 
 SET(TARGET_LIB libtiff)
+SET(LIFTIFF_SOURCE_DIR CACHE PATH "Path where to find LIFTIFF source")
 
+# Check dependencies for LIBTIFF
+IF(NOT ZLIB_SOURCE_DIR)
+    MESSAGE(FATAL_ERROR "Error: LIBTIFF depends on ZLIB and no ZLIB path has been set")
+ENDIF()
+
+IF(NOT LIBJPEG_SOURCE_DIR)
+    MESSAGE(FATAL_ERROR "Error: LIBTIFF depends on LIBJPEG and no LIBJPEG path has been set")
+ENDIF()
 
 IF(MSVC)
     SET(tif_config "${LIFTIFF_SOURCE_DIR}/libtiff/tif_config.vc.h")

@@ -1,6 +1,11 @@
+IF(NOT USE_LIBJPEG)
+    return()
+ENDIF()
+
 PROJECT(jpeg C)
 
 SET(TARGET_LIB jpeg)
+SET(LIBJPEG_SOURCE_DIR CACHE PATH "Path where to find LIBJPEG source")
 
 IF(MSVC)
     SET(jconfig "${LIBJPEG_SOURCE_DIR}/jconfig.vc")

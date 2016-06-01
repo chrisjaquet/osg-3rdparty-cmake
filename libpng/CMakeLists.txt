@@ -5,9 +5,22 @@
 # This code is released under the libpng license.
 # For conditions of distribution and use, see the disclaimer
 # and license in png.h
+
+IF(NOT USE_LIBPNG)
+    return()
+ENDIF()
+
+
 project(libpng C)
 
 SET(TARGET_LIB libpng)
+SET(LIBPNG_SOURCE_DIR CACHE PATH "Path where to find LIBPNG source")
+
+# Check dependencies for LIBPNG
+IF(NOT ZLIB_SOURCE_DIR)
+    MESSAGE(FATAL_ERROR "Error: LIBPNG depends on ZLIB and no ZLIB path has been set")
+ENDIF()
+
 
 IF(NOT WIN32)
     find_library(M_LIBRARY
