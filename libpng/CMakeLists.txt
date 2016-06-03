@@ -10,11 +10,21 @@ IF(NOT USE_LIBPNG)
     return()
 ENDIF()
 
-
 project(libpng C)
-
 SET(TARGET_LIB libpng)
-SET(LIBPNG_SOURCE_DIR CACHE PATH "Path where to find LIBPNG source")
+SET(LIBPNG_VERSION "1.6.21")
+
+# Try to download the source from the internet if no source folder is specified.
+IF(NOT LIBPNG_SOURCE_DIR)
+    DownloadAndExtract("http://prdownloads.sourceforge.net/libpng/libpng-${LIBPNG_VERSION}.tar.xz?download" 
+        ${CMAKE_CURRENT_SOURCE_DIR}/libpng-${LIBPNG_VERSION}.tar.xz
+        ${CMAKE_CURRENT_BINARY_DIR}
+    )
+    SET(_LIBPNG_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/libpng-${LIBPNG_VERSION})
+ELSE()
+    SET(_LIBPNG_SOURCE_DIR ${LIBPNG_SOURCE_DIR})
+ENDIF()
+SET(LIBPNG_SOURCE_DIR ${_LIBPNG_SOURCE_DIR} CACHE PATH "Path where to find LIBPNG source")
 
 # Check dependencies for LIBPNG
 IF(NOT ZLIB_SOURCE_DIR)

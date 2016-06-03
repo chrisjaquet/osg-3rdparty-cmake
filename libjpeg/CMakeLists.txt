@@ -5,7 +5,20 @@ ENDIF()
 PROJECT(jpeg C)
 
 SET(TARGET_LIB jpeg)
-SET(LIBJPEG_SOURCE_DIR CACHE PATH "Path where to find LIBJPEG source")
+SET(TARGET_LIB libpng)
+SET(LIBJPEG_VERSION "9b")
+
+# Try to download the source from the internet if no source folder is specified.
+IF(NOT LIBJPEG_SOURCE_DIR)
+    DownloadAndExtract("http://www.ijg.org/files/jpegsrc.v${LIBJPEG_VERSION}.tar.gz" 
+        ${CMAKE_CURRENT_SOURCE_DIR}/libjpeg-${LIBJPEG_VERSION}.tar.gz
+        ${CMAKE_CURRENT_BINARY_DIR}
+    )
+    SET(_LIBJPEG_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/jpeg-${LIBJPEG_VERSION})
+ELSE()
+    SET(_LIBJPEG_SOURCE_DIR ${LIBJPEG_SOURCE_DIR})
+ENDIF()
+SET(LIBJPEG_SOURCE_DIR ${_LIBJPEG_SOURCE_DIR} CACHE PATH "Path where to find LIBJPEG source")
 
 IF(MSVC)
     SET(jconfig "${LIBJPEG_SOURCE_DIR}/jconfig.vc")

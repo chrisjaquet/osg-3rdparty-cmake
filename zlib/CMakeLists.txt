@@ -3,35 +3,16 @@ IF(NOT USE_ZLIB)
 ENDIF()
 
 PROJECT(zlib C)
-
 SET(TARGET_LIB zlib)
-
 SET(ZLIB_VERSION "1.2.8")
 
+# Try to download the source from the internet if no source folder is specified.
 IF(NOT ZLIB_SOURCE_DIR)
-    # Download the file
-    SET(ZLIB_EXTRACTED_DIR ${CMAKE_CURRENT_BINARY_DIR}/zlib-${ZLIB_VERSION})
-    SET(ZLIB_FILE ${CMAKE_CURRENT_BINARY_DIR}/zlib-${ZLIB_VERSION}.tar.gz)
-    IF(NOT EXISTS ${ZLIB_FILE})
-        SET(ZLIB_SOURCE_URL "http://prdownloads.sourceforge.net/libpng/zlib-1.2.8.tar.gz?download")
-        MESSAGE(STATUS "Downloading '${ZLIB_FILE}' from '${ZLIB_SOURCE_URL}'...")
-        FILE(DOWNLOAD ${ZLIB_SOURCE_URL} ${ZLIB_FILE} SHOW_PROGRESS)
-    ELSE()
-        MESSAGE("Using existing file '${ZLIB_FILE}'.")
-    ENDIF()
-    MESSAGE(STATUS "Extracting '${ZLIB_FILE}'...")
-    EXECUTE_PROCESS(COMMAND cmake -E tar xvf ${ZLIB_FILE}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-        RESULT_VARIABLE EXTRACT_RESULT_VAR
-        OUTPUT_VARIABLE EXTRACT_OUTPUT_VAR
-        ERROR_VARIABLE EXTRACT_OUTPUT_VAR
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        ERROR_STRIP_TRAILING_WHITESPACE
+    DownloadAndExtract("http://prdownloads.sourceforge.net/libpng/zlib-1.2.8.tar.gz?download" 
+        ${CMAKE_CURRENT_SOURCE_DIR}/zlib-${ZLIB_VERSION}.tar.gz
+        ${CMAKE_CURRENT_BINARY_DIR}
     )
-    IF(NOT ${EXTRACT_RESULT_VAR} EQUAL 0)
-        MESSAGE(FATAL_ERROR "Could not extract '${ZLIB_FILE}'. Return code: '${EXTRACT_RESULT_VAR}'. Output:\n${EXTRACTOUTPUT_VARIABLE}")
-    ENDIF()
-    SET(_ZLIB_SOURCE_DIR ${ZLIB_EXTRACTED_DIR})
+    SET(_ZLIB_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/zlib-${ZLIB_VERSION})
 ELSE()
     SET(_ZLIB_SOURCE_DIR ${ZLIB_SOURCE_DIR})
 ENDIF()

@@ -2,6 +2,31 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 PROJECT(OpenscenegraphThirdParty)
 
+FUNCTION(DownloadAndExtract downloadURL destinationFilePath workingDirectory)
+    IF(NOT EXISTS ${destinationFilePath})
+        MESSAGE(STATUS "Downloading '${destinationFilePath}' from '${downloadURL}'...")
+        FILE(DOWNLOAD ${downloadURL} ${destinationFilePath} SHOW_PROGRESS)
+    ELSE()
+        MESSAGE("Using existing file '${destinationFilePath}'.")
+    ENDIF()
+    MESSAGE(STATUS "Extracting '${destinationFilePath}'...")
+    IF(NOT EXISTS ${workingDirectory})
+        EXECUTE_PROCESS(COMMAND cmake -E make_directory ${destinationFilePath})
+    ENDIF()
+    EXECUTE_PROCESS(COMMAND cmake -E tar xvf ${destinationFilePath}
+        WORKING_DIRECTORY ${workingDirectory}
+        RESULT_VARIABLE EXTRACT_RESULT_VAR
+        OUTPUT_VARIABLE EXTRACT_OUTPUT_VAR
+        ERROR_VARIABLE EXTRACT_OUTPUT_VAR
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_STRIP_TRAILING_WHITESPACE
+    )
+    IF(NOT ${EXTRACT_RESULT_VAR} EQUAL 0)
+        MESSAGE(FATAL_ERROR "Could not extract '${destinationFilePath}'.\nReturn code: '${EXTRACT_RESULT_VAR}'.\nOutput:\n${EXTRACT_OUTPUT_VAR}")
+    ENDIF()
+ENDFUNCTION()
+
+
 # Only enable release and debug builds
 IF(CMAKE_CONFIGURATION_TYPES)
    SET(CMAKE_CONFIGURATION_TYPES Debug Release)
@@ -36,16 +61,16 @@ IF(MINGW)
 ENDIF()
 
 SET(dirname "${COMPILER}-${BITS}")
-
+message(">>>> dirname: ${dirname}")
 # Set directories
 SET(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/3rdParty/${dirname}/bin")
-SET(ARCHIVE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/3rdParty/${dirname}/lib")
+SET(ARCHIVE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/${dirname}/lib")
 SET(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/lib")
 SET(INCLUDE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/3rdParty/${dirname}/include")
 
 SET(USE_ZLIB ON CACHE BOOL "Use and compile ZLIB source")
-SET(USE_LIBPNG OFF CACHE BOOL "Use and compile LIBPNG source")
-SET(USE_LIBJPEG OFF CACHE BOOL "Use and compile LIBJPEG source")
+SET(USE_LIBPNG ON CACHE BOOL "Use and compile LIBPNG source")
+SET(USE_LIBJPEG ON CACHE BOOL "Use and compile LIBJPEG source")
 SET(USE_LIFTIFF OFF CACHE BOOL "Use and compile LIFTIFF source")
 SET(USE_FREETYPE OFF CACHE BOOL "Use and compile FREETYPE source")
 SET(USE_GLUT OFF CACHE BOOL "Use and compile GLUT source")
