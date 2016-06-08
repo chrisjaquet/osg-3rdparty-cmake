@@ -1,31 +1,11 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.4)
 
-PROJECT(OpenscenegraphThirdParty)
+PROJECT(OpenSceneGraph-3rdPartyLibs)
 
-FUNCTION(DownloadAndExtract downloadURL destinationFilePath workingDirectory)
-    IF(NOT EXISTS ${destinationFilePath})
-        MESSAGE(STATUS "Downloading '${destinationFilePath}' from '${downloadURL}'...")
-        FILE(DOWNLOAD ${downloadURL} ${destinationFilePath} SHOW_PROGRESS)
-    ELSE()
-        MESSAGE("Using existing file '${destinationFilePath}'.")
-    ENDIF()
-    MESSAGE(STATUS "Extracting '${destinationFilePath}'...")
-    IF(NOT EXISTS ${workingDirectory})
-        EXECUTE_PROCESS(COMMAND cmake -E make_directory ${destinationFilePath})
-    ENDIF()
-    EXECUTE_PROCESS(COMMAND cmake -E tar xvf ${destinationFilePath}
-        WORKING_DIRECTORY ${workingDirectory}
-        RESULT_VARIABLE EXTRACT_RESULT_VAR
-        OUTPUT_VARIABLE EXTRACT_OUTPUT_VAR
-        ERROR_VARIABLE EXTRACT_OUTPUT_VAR
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        ERROR_STRIP_TRAILING_WHITESPACE
-    )
-    IF(NOT ${EXTRACT_RESULT_VAR} EQUAL 0)
-        MESSAGE(FATAL_ERROR "Could not extract '${destinationFilePath}'.\nReturn code: '${EXTRACT_RESULT_VAR}'.\nOutput:\n${EXTRACT_OUTPUT_VAR}")
-    ENDIF()
-ENDFUNCTION()
+INCLUDE(CMakeModules/FunctionDefinitions.cmake)
 
+# Some global options
+SET(CMAKE_DEBUG_POSTFIX "d")
 
 # Only enable release and debug builds
 IF(CMAKE_CONFIGURATION_TYPES)
@@ -35,13 +15,14 @@ IF(CMAKE_CONFIGURATION_TYPES)
      FORCE)
 ENDIF()
 
-# Generate folder name for install
+# Determine architecture bitness
 IF(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
     SET(BITS "x64")
 ELSEIF (${CMAKE_SIZEOF_VOID_P} EQUAL 4)
     SET(BITS "x86")
 ENDIF()
 
+# Determine compiler name (and version for VS)
 IF (MSVC)
     IF (${MSVC_VERSION} EQUAL 1600)
         SET(COMPILER "v100") # Visual Studio 2010
@@ -52,22 +33,28 @@ IF (MSVC)
     ELSEIF (${MSVC_VERSION} EQUAL 1900)
         SET(COMPILER "v140") # Visual Studio 2015
     ELSE()
-        MESSAGE(FATAL_ERROR "Unkown version of Visual Studio Detected")
+        MESSAGE(FATAL_ERROR "Unknown version of Visual Studio detected.")
     ENDIF()
-ENDIF()
-
-IF(MINGW)
+ELSEIF(MINGW)
     SET(COMPILER "mingw")
+ELSE()
+    MESSAGE(FATAL_ERROR "Unknown compiler being used.")
 ENDIF()
 
+# Output root directory name
 SET(dirname "${COMPILER}-${BITS}")
-message(">>>> dirname: ${dirname}")
-# Set directories
-SET(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/3rdParty/${dirname}/bin")
-SET(ARCHIVE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/${dirname}/lib")
-SET(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/lib")
-SET(INCLUDE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/3rdParty/${dirname}/include")
 
+# Set output sub-directory names
+#SET(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/3rdParty/${dirname}/bin")
+#SET(ARCHIVE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/${dirname}/lib")
+#SET(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/lib")
+#SET(INCLUDE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/3rdParty/${dirname}/include")
+SET(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/${dirname}/bin")
+SET(ARCHIVE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/${dirname}/lib")
+SET(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/${dirname}/lib")
+SET(INCLUDE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/${dirname}/include")
+
+# Configurations for specifying the 3rd-Party libraries to build
 SET(USE_ZLIB ON CACHE BOOL "Use and compile ZLIB source")
 SET(USE_LIBPNG ON CACHE BOOL "Use and compile LIBPNG source")
 SET(USE_LIBJPEG ON CACHE BOOL "Use and compile LIBJPEG source")
@@ -78,7 +65,7 @@ SET(USE_GIFLIB OFF CACHE BOOL "Use and compile GIFLIB source")
 SET(USE_MINIZIP OFF CACHE BOOL "Use and compile MINIZIP source")
 SET(USE_CURL OFF CACHE BOOL "Use and compile cURL source")
 
-# Add libraries
+# Add all the libraries
 ADD_SUBDIRECTORY(zlib)
 ADD_SUBDIRECTORY(libpng)
 ADD_SUBDIRECTORY(libjpeg)
@@ -88,4 +75,3 @@ ADD_SUBDIRECTORY(glut)
 ADD_SUBDIRECTORY(giflib)
 ADD_SUBDIRECTORY(minizip)
 ADD_SUBDIRECTORY(curl)
-

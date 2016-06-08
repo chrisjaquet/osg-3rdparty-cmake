@@ -16,7 +16,7 @@ SET(LIBPNG_VERSION "1.6.21")
 
 # Try to download the source from the internet if no source folder is specified.
 IF(NOT LIBPNG_SOURCE_DIR)
-    DownloadAndExtract("http://prdownloads.sourceforge.net/libpng/libpng-${LIBPNG_VERSION}.tar.xz?download" 
+    DownloadAndExtract("http://prdownloads.sourceforge.net/libpng/libpng-${LIBPNG_VERSION}.tar.xz?download"
         ${CMAKE_CURRENT_SOURCE_DIR}/libpng-${LIBPNG_VERSION}.tar.xz
         ${CMAKE_CURRENT_BINARY_DIR}
     )
@@ -87,8 +87,8 @@ SET(LIBPNG_SOURCES
     ${LIBPNG_SOURCE_DIR}/pngwutil.c
 )
 
-# Dependent include files
-INCLUDE_DIRECTORIES(${LIBPNG_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+# Dependant include directories
+INCLUDE_DIRECTORIES(${LIBPNG_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${ZLIB_SOURCE_DIR} ${ZLIB_BINARY_DIR})
 
 # SOME NEEDED DEFINITIONS
 
