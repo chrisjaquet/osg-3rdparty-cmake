@@ -33,12 +33,12 @@ ENDIF()
 
 
 IF(NOT WIN32)
-    find_library(M_LIBRARY
+    FIND_LIBRARY(M_LIBRARY
         NAMES m
         PATHS /usr/lib /usr/local/lib
     )
     IF(NOT M_LIBRARY)
-        message(STATUS
+        MESSAGE(STATUS
             "math library 'libm' not found - floating point support disabled")
     ENDIF()
 else()

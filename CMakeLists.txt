@@ -9,10 +9,10 @@ SET(CMAKE_DEBUG_POSTFIX "d")
 
 # Only enable release and debug builds
 IF(CMAKE_CONFIGURATION_TYPES)
-   SET(CMAKE_CONFIGURATION_TYPES Debug Release)
-   set(CMAKE_CONFIGURATION_TYPES "${CMAKE_CONFIGURATION_TYPES}" CACHE STRING
-     "Reset the configurations to what we need"
-     FORCE)
+  SET(CMAKE_CONFIGURATION_TYPES Debug Release)
+  SET(CMAKE_CONFIGURATION_TYPES "${CMAKE_CONFIGURATION_TYPES}" CACHE STRING
+    "Reset the configurations to what we need"
+    FORCE)
 ENDIF()
 
 # Determine architecture bitness
@@ -58,7 +58,7 @@ SET(INCLUDE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/${dirname}/include")
 SET(USE_ZLIB ON CACHE BOOL "Use and compile ZLIB source")
 SET(USE_LIBPNG ON CACHE BOOL "Use and compile LIBPNG source")
 SET(USE_LIBJPEG ON CACHE BOOL "Use and compile LIBJPEG source")
-SET(USE_LIFTIFF OFF CACHE BOOL "Use and compile LIFTIFF source")
+SET(USE_LIBTIFF OFF CACHE BOOL "Use and compile LIBTIFF source")
 SET(USE_FREETYPE OFF CACHE BOOL "Use and compile FREETYPE source")
 SET(USE_GLUT OFF CACHE BOOL "Use and compile GLUT source")
 SET(USE_GIFLIB OFF CACHE BOOL "Use and compile GIFLIB source")
