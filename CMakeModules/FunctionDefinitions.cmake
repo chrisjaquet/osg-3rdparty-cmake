@@ -3,7 +3,7 @@
 FUNCTION(DownloadAndExtract downloadURL destinationFilePath workingDirectory)
     IF(NOT EXISTS ${destinationFilePath})
         MESSAGE(STATUS "Downloading '${destinationFilePath}' from '${downloadURL}'...")
-        FILE(DOWNLOAD ${downloadURL} ${destinationFilePath} SHOW_PROGRESS)
+        FILE(DOWNLOAD ${downloadURL} ${destinationFilePath})
     ELSE()
         MESSAGE("Using existing file '${destinationFilePath}'.")
     ENDIF()
