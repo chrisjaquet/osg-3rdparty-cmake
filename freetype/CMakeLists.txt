@@ -3,9 +3,21 @@ IF(NOT USE_FREETYPE)
 ENDIF()
 
 PROJECT(freetype C)
+SET(FREETYPE_VERSION "2.6.3")
 
 SET(TARGET_LIB freetype)
-SET(FREETYPE_SOURCE_DIR CACHE PATH "Path where to find FREETYPE source")
+
+# Try to download the source from the internet if no source folder is specified.
+IF(NOT FREETYPE_SOURCE_DIR)
+    DownloadAndExtract("http://download.savannah.gnu.org/releases/freetype/freetype-${FREETYPE_VERSION}.tar.gz"
+        ${CMAKE_CURRENT_SOURCE_DIR}/freetype-${FREETYPE_VERSION}.tar.gz
+        ${CMAKE_CURRENT_BINARY_DIR}
+    )
+    SET(_FREETYPE_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/freetype-${FREETYPE_VERSION})
+ELSE()
+    SET(_FREETYPE_SOURCE_DIR ${FREETYPE_SOURCE_DIR})
+ENDIF()
+SET(FREETYPE_SOURCE_DIR ${_FREETYPE_SOURCE_DIR} CACHE PATH "Path where to find FREETYPE source")
 
 # Make sure that we use the correct freetype headers directory
 UNSET(FREETYPE_HEADERS_DIR CACHE)

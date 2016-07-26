@@ -3,10 +3,21 @@ IF(NOT USE_GLUT)
 ENDIF()
 
 PROJECT(glut C)
+SET(GLUT_VERSION "3.7")
 
 SET(TARGET_LIB glut32)
-SET(GLUT_SOURCE_DIR CACHE PATH "Path where to find GLUT source")
 
+# Try to download the source from the internet if no source folder is specified.
+IF(NOT GLUT_SOURCE_DIR)
+    DownloadAndExtract("https://www.opengl.org/resources/libraries/glut/glut-${GLUT_VERSION}.tar.gz"
+        ${CMAKE_CURRENT_SOURCE_DIR}/glut-${GLUT_VERSION}.tar.gz
+        ${CMAKE_CURRENT_BINARY_DIR}
+    )
+    SET(_GLUT_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/glut-${GLUT_VERSION})
+ELSE()
+    SET(_GLUT_SOURCE_DIR ${GLUT_SOURCE_DIR})
+ENDIF()
+SET(GLUT_SOURCE_DIR ${_GLUT_SOURCE_DIR} CACHE PATH "Path where to find GLUT source")
 
 SET(GLUT_PUBLIC_HEADERS
     ${GLUT_SOURCE_DIR}/include/GL/glut.h

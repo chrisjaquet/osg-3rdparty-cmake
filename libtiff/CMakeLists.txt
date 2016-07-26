@@ -5,7 +5,7 @@ ENDIF()
 PROJECT(libtiff C)
 
 SET(TARGET_LIB libtiff)
-SET(LIFTIFF_SOURCE_DIR CACHE PATH "Path where to find LIFTIFF source")
+SET(LIBTIFF_VERSION "4.0.6")
 
 # Check dependencies for LIBTIFF
 IF(NOT ZLIB_SOURCE_DIR)
@@ -15,6 +15,18 @@ ENDIF()
 IF(NOT LIBJPEG_SOURCE_DIR)
     MESSAGE(FATAL_ERROR "Error: LIBTIFF depends on LIBJPEG and no LIBJPEG path has been set")
 ENDIF()
+
+# Try to download the source from the internet if no source folder is specified.
+IF(NOT LIBTIFF_SOURCE_DIR)
+    DownloadAndExtract("ftp://ftp.remotesensing.org/pub/libtiff/tiff-${LIBTIFF_VERSION}.tar.gz"
+        ${CMAKE_CURRENT_SOURCE_DIR}/tiff-${LIBTIFF_VERSION}.tar.gz
+        ${CMAKE_CURRENT_BINARY_DIR}
+    )
+    SET(_LIBTIFF_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/tiff-${LIBTIFF_VERSION})
+ELSE()
+    SET(_LIBTIFF_SOURCE_DIR ${LIBTIFF_SOURCE_DIR})
+ENDIF()
+SET(LIBTIFF_SOURCE_DIR ${_LIBTIFF_SOURCE_DIR} CACHE PATH "Path where to find LIBTIFF source")
 
 IF(MSVC)
     SET(tif_config "${LIBTIFF_SOURCE_DIR}/libtiff/tif_config.vc.h")

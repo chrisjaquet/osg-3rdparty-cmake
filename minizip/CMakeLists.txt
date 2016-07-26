@@ -3,9 +3,22 @@ IF(NOT USE_MINIZIP)
 ENDIF()
 
 PROJECT(minizip C)
+SET(MINIZIP_VERSION "16455205a717532e416d92c40df44f3b1797d7d8")
+
 
 SET(TARGET_LIB minizip)
-SET(MINIZIP_SOURCE_DIR CACHE PATH "Path where to find MINIZIP source")
+
+# Try to download the source from the internet if no source folder is specified.
+IF(NOT MINIZIP_SOURCE_DIR)
+    DownloadAndExtract("https://github.com/nmoinvaz/minizip/archive/${MINIZIP_VERSION}.zip"
+        ${CMAKE_CURRENT_SOURCE_DIR}/minizip-${MINIZIP_VERSION}.zip
+        ${CMAKE_CURRENT_BINARY_DIR}
+    )
+    SET(_MINIZIP_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/minizip-${MINIZIP_VERSION})
+ELSE()
+    SET(_MINIZIP_SOURCE_DIR ${MINIZIP_SOURCE_DIR})
+ENDIF()
+SET(MINIZIP_SOURCE_DIR ${_MINIZIP_SOURCE_DIR} CACHE PATH "Path where to find MINIZIP source")
 
 # Check dependencies for MINIZIP
 IF(NOT ZLIB_SOURCE_DIR)

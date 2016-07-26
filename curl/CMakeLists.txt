@@ -3,9 +3,21 @@ IF(NOT USE_CURL)
 ENDIF()
 
 PROJECT(curl C)
+SET(CURL_VERSION "7.49.1")
 
 SET(TARGET_LIB libcurl)
-SET(CURL_SOURCE_DIR CACHE PATH "Path where to find cURL source")
+
+# Try to download the source from the internet if no source folder is specified.
+IF(NOT CURL_SOURCE_DIR)
+    DownloadAndExtract("https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz"
+        ${CMAKE_CURRENT_SOURCE_DIR}/curl-${CURL_VERSION}.tar.gz
+        ${CMAKE_CURRENT_BINARY_DIR}
+    )
+    SET(_CURL_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/curl-${CURL_VERSION})
+ELSE()
+    SET(_CURL_SOURCE_DIR ${CURL_SOURCE_DIR})
+ENDIF()
+SET(CURL_SOURCE_DIR ${_CURL_SOURCE_DIR} CACHE PATH "Path where to find cURL source")
 
 SET(CURL_PUBLIC_HEADERS
     ${CURL_SOURCE_DIR}/include/curl/curl.h

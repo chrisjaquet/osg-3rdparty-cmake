@@ -3,9 +3,21 @@ IF(NOT USE_GIFLIB)
 ENDIF()
 
 PROJECT(giflib C)
+SET(GIFLIB_VERSION "5.1.2")
 
 SET(TARGET_LIB giflib)
-SET(GIFLIB_SOURCE_DIR CACHE PATH "Path where to find GIFLIB source")
+
+# Try to download the source from the internet if no source folder is specified.
+IF(NOT GIFLIB_SOURCE_DIR)
+    DownloadAndExtract("https://sourceforge.net/projects/giflib/files/giflib-${GIFLIB_VERSION}.tar.gz/download"
+        ${CMAKE_CURRENT_SOURCE_DIR}/giflib-${GIFLIB_VERSION}.tar.gz
+        ${CMAKE_CURRENT_BINARY_DIR}
+    )
+    SET(_GIFLIB_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/giflib-${GIFLIB_VERSION})
+ELSE()
+    SET(_GIFLIB_SOURCE_DIR ${GIFLIB_SOURCE_DIR})
+ENDIF()
+SET(GIFLIB_SOURCE_DIR ${_GIFLIB_SOURCE_DIR} CACHE PATH "Path where to find GIFLIB source")
 
 SET(GIFLIB_VERSION_FILE "${GIFLIB_SOURCE_DIR}/lib/gif_lib.h")
 
