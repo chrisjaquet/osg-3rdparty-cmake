@@ -45,14 +45,10 @@ ENDIF()
 SET(dirname "${COMPILER}-${BITS}")
 
 # Set output sub-directory names
-#SET(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/3rdParty/${dirname}/bin")
-#SET(ARCHIVE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/${dirname}/lib")
-#SET(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/lib")
-#SET(INCLUDE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/3rdParty/${dirname}/include")
-SET(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/${dirname}/bin")
-SET(ARCHIVE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/${dirname}/lib")
-SET(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/${dirname}/lib")
-SET(INCLUDE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/${dirname}/include")
+SET(EXECUTABLE_OUTPUT_PATH "bin")
+SET(ARCHIVE_OUTPUT_PATH "lib")
+SET(LIBRARY_OUTPUT_PATH "lib")
+SET(INCLUDE_OUTPUT_PATH "include")
 
 # Configurations for specifying the 3rd-Party libraries to build
 SET(USE_ZLIB ON CACHE BOOL "Use and compile ZLIB source")
