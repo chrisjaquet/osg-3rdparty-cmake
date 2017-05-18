@@ -4,11 +4,11 @@ ENDIF()
 
 PROJECT(zlib C)
 SET(TARGET_LIB zlib)
-SET(ZLIB_VERSION "1.2.8")
+SET(ZLIB_VERSION "1.2.11")
 
 # Try to download the source from the internet if no source folder is specified.
 IF(NOT ZLIB_SOURCE_DIR)
-    DownloadAndExtract("http://prdownloads.sourceforge.net/libpng/zlib-1.2.8.tar.gz?download"
+    DownloadAndExtract("http://prdownloads.sourceforge.net/libpng/zlib-${ZLIB_VERSION}.tar.gz?download"
         ${CMAKE_CURRENT_SOURCE_DIR}/zlib-${ZLIB_VERSION}.tar.gz
         ${CMAKE_CURRENT_BINARY_DIR}
     )

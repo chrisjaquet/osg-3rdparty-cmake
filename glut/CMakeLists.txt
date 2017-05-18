@@ -3,13 +3,13 @@ IF(NOT USE_GLUT)
 ENDIF()
 
 PROJECT(glut C)
-SET(GLUT_VERSION "3.7")
+SET(GLUT_VERSION "8cd96cb440f1f2fac3a154227937be39d06efa53")
 
 SET(TARGET_LIB glut32)
 
 # Try to download the source from the internet if no source folder is specified.
 IF(NOT GLUT_SOURCE_DIR)
-    DownloadAndExtract("https://www.opengl.org/resources/libraries/glut/glut-${GLUT_VERSION}.tar.gz"
+    DownloadAndExtract("https://github.com/markkilgard/glut/archive/${GLUT_VERSION}.zip"
         ${CMAKE_CURRENT_SOURCE_DIR}/glut-${GLUT_VERSION}.tar.gz
         ${CMAKE_CURRENT_BINARY_DIR}
     )

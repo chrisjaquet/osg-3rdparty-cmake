@@ -45,10 +45,10 @@ ENDIF()
 SET(dirname "${TOOLSET}-${BITS}")
 
 # Set output sub-directory names
-SET(EXECUTABLE_OUTPUT_PATH "bin")
-SET(ARCHIVE_OUTPUT_PATH "lib")
-SET(LIBRARY_OUTPUT_PATH "lib")
-SET(INCLUDE_OUTPUT_PATH "include")
+SET(EXECUTABLE_OUTPUT_PATH "${dirname}/bin")
+SET(ARCHIVE_OUTPUT_PATH "${dirname}/lib")
+SET(LIBRARY_OUTPUT_PATH "${dirname}/lib")
+SET(INCLUDE_OUTPUT_PATH "${dirname}/include")
 
 # Configurations for specifying the 3rd-Party libraries to build
 SET(USE_ZLIB ON CACHE BOOL "Use and compile ZLIB source")

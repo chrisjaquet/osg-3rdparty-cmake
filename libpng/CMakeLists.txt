@@ -12,7 +12,7 @@ ENDIF()
 
 project(libpng C)
 SET(TARGET_LIB libpng)
-SET(LIBPNG_VERSION "1.6.21")
+SET(LIBPNG_VERSION "1.6.28")
 
 # Try to download the source from the internet if no source folder is specified.
 IF(NOT LIBPNG_SOURCE_DIR)

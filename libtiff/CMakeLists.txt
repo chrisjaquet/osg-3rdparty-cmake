@@ -5,7 +5,7 @@ ENDIF()
 PROJECT(libtiff C)
 
 SET(TARGET_LIB libtiff)
-SET(LIBTIFF_VERSION "4.0.6")
+SET(LIBTIFF_VERSION "4.0.7")
 
 # Check dependencies for LIBTIFF
 IF(NOT ZLIB_SOURCE_DIR)
@@ -18,7 +18,9 @@ ENDIF()
 
 # Try to download the source from the internet if no source folder is specified.
 IF(NOT LIBTIFF_SOURCE_DIR)
-    DownloadAndExtract("ftp://ftp.remotesensing.org/pub/libtiff/tiff-${LIBTIFF_VERSION}.tar.gz"
+    #SET(LIBTIFF_DOWNLOAD_SITE "ftp://ftp.remotesensing.org/pub/libtiff/tiff-${LIBTIFF_VERSION}.tar.gz") # Primary site
+    SET(LIBTIFF_DOWNLOAD_SITE "http://download.osgeo.org/libtiff/tiff-${LIBTIFF_VERSION}.tar.gz") # Backup site
+    DownloadAndExtract(${LIBTIFF_DOWNLOAD_SITE}
         ${CMAKE_CURRENT_SOURCE_DIR}/tiff-${LIBTIFF_VERSION}.tar.gz
         ${CMAKE_CURRENT_BINARY_DIR}
     )
