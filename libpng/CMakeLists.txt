@@ -87,7 +87,7 @@ SET(LIBPNG_SOURCES
     ${LIBPNG_SOURCE_DIR}/pngwutil.c
 )
 
-# Dependant include directories
+# Dependent include directories
 INCLUDE_DIRECTORIES(${LIBPNG_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${ZLIB_SOURCE_DIR} ${ZLIB_BINARY_DIR})
 
 # SOME NEEDED DEFINITIONS
