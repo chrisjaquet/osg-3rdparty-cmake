@@ -4,9 +4,6 @@ PROJECT(OpenSceneGraph-3rdPartyLibs)
 
 INCLUDE(CMakeModules/FunctionDefinitions.cmake)
 
-# Some global options
-SET(CMAKE_DEBUG_POSTFIX "d")
-
 # Only enable release and debug builds
 IF(CMAKE_CONFIGURATION_TYPES)
   SET(CMAKE_CONFIGURATION_TYPES Debug Release)
