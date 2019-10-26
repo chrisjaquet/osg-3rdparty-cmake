@@ -18,7 +18,7 @@ ELSE()
   SET(_LIBPNG_SOURCE_DIR ${LIBPNG_SOURCE_DIR})
 
   # parse the full version number from png.h and include in PNG_FULL_VERSION
-  FILE(READ ${LIBPNG_SOURCE_DIR}/png.h _png_h_contents)
+  FILE(READ ${_LIBPNG_SOURCE_DIR}/png.h _png_h_contents)
   STRING(REGEX REPLACE ".*#define[ \t]+PNG_LIBPNG_VER_STRING[ \t]+\"([-0-9A-Za-z.]+)\".*" "\\1" PNG_FULL_VERSION_DETECTED ${_png_h_contents})
 
   IF(NOT ${PNG_FULL_VERSION_DETECTED} STREQUAL ${LIBPNG_VERSION})
