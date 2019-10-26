@@ -1,7 +1,3 @@
-IF(NOT USE_FREETYPE)
-    return()
-ENDIF()
-
 PROJECT(freetype C)
 SET(FREETYPE_VERSION "2.7.1")
 

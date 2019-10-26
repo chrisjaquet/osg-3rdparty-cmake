@@ -1,7 +1,3 @@
-IF(NOT USE_ZLIB)
-    return()
-ENDIF()
-
 PROJECT(zlib C)
 SET(TARGET_LIB zlib)
 SET(ZLIB_VERSION "1.2.11")

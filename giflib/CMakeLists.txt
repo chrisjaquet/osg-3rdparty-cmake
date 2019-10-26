@@ -1,7 +1,3 @@
-IF(NOT USE_GIFLIB)
-    return()
-ENDIF()
-
 PROJECT(giflib C)
 SET(GIFLIB_VERSION "5.1.4")
 

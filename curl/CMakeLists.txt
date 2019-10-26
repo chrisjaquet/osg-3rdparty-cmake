@@ -1,7 +1,3 @@
-IF(NOT USE_CURL)
-    return()
-ENDIF()
-
 PROJECT(curl C)
 SET(CURL_VERSION "7.54.0")
 

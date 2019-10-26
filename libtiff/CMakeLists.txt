@@ -1,7 +1,3 @@
-IF(NOT USE_LIBTIFF)
-    return()
-ENDIF()
-
 PROJECT(libtiff C)
 
 SET(TARGET_LIB libtiff)

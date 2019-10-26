@@ -1,7 +1,3 @@
-IF(NOT USE_GLUT)
-    return()
-ENDIF()
-
 PROJECT(glut C)
 SET(GLUT_VERSION "8cd96cb440f1f2fac3a154227937be39d06efa53")
 

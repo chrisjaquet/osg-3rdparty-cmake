@@ -1,7 +1,3 @@
-IF(NOT USE_LIBJPEG)
-    return()
-ENDIF()
-
 PROJECT(jpeg C)
 
 SET(TARGET_LIB jpeg)

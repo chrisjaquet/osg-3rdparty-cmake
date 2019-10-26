@@ -1,7 +1,3 @@
-IF(NOT USE_MINIZIP)
-    return()
-ENDIF()
-
 PROJECT(minizip C)
 SET(MINIZIP_VERSION "f5fb00d3cf54efdeebb9dfa7a39a0b279e46c5a8")
 

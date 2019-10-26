@@ -6,10 +6,6 @@
 # For conditions of distribution and use, see the disclaimer
 # and license in png.h
 
-IF(NOT USE_LIBPNG)
-    return()
-ENDIF()
-
 project(libpng C)
 SET(TARGET_LIB libpng)
 SET(LIBPNG_VERSION "1.6.28")
