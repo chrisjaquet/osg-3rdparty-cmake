@@ -1,4 +1,4 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.4)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.5 FATAL_ERROR)
 
 PROJECT(OpenSceneGraph-3rdPartyLibs)
 
@@ -9,8 +9,7 @@ IF(CMAKE_CONFIGURATION_TYPES)
   SET(CMAKE_CONFIGURATION_TYPES Debug Release)
   SET(CMAKE_CONFIGURATION_TYPES "${CMAKE_CONFIGURATION_TYPES}" CACHE STRING
     "Reset the configurations to what we need"
-    FORCE
-    )
+    FORCE)
 ENDIF()
 
 # Determine architecture bitness
@@ -44,11 +43,10 @@ ENDIF()
 # Output root directory name
 SET(dirname "${TOOLSET}-${BITS}")
 
-# Set output sub-directory names
-SET(EXECUTABLE_OUTPUT_PATH "${dirname}/bin")
-SET(ARCHIVE_OUTPUT_PATH "${dirname}/lib")
-SET(LIBRARY_OUTPUT_PATH "${dirname}/lib")
-SET(INCLUDE_OUTPUT_PATH "${dirname}/include")
+# Set directories if not set explicitly
+IF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  SET(CMAKE_INSTALL_PREFIX "${PROJECT_BINARY_DIR}/3rdParty/${dirname}" CACHE "Force change of path" PATH FORCE)
+ENDIF()
 
 # Configurations for specifying the 3rd-Party libraries to build
 OPTION(USE_ZLIB "Use and compile ZLIB source" ON)
