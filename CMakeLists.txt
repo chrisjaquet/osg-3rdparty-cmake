@@ -45,7 +45,7 @@ SET(dirname "${TOOLSET}-${BITS}")
 
 # Set directories if not set explicitly
 IF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-  SET(CMAKE_INSTALL_PREFIX "${PROJECT_BINARY_DIR}/3rdParty/${dirname}" CACHE "Force change of path" PATH FORCE)
+  SET(CMAKE_INSTALL_PREFIX "${PROJECT_BINARY_DIR}/3rdParty/${dirname}" CACHE PATH "Force change of path" FORCE)
 ENDIF()
 
 # Configurations for specifying the 3rd-Party libraries to build
