@@ -1,3 +1,12 @@
 /build
 /osg-3rdparty-cmake.kdev4
 /.kdev4
+/curl/curl-*.tar.gz
+/freetype/freetype-*.tar.gz
+/giflib/giflib-*.tar.gz
+/glut/glut-*.tar.gz
+/libjpeg/libjpeg-*.tar.gz
+/libpng/libpng-*.tar.xz
+/libtiff/tiff-*.tar.gz
+/minizip/minizip-*.zip
+/zlib/zlib-*.tar.gz
