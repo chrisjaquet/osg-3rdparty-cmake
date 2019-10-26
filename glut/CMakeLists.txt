@@ -1,6 +1,6 @@
 SET(GLUT_VERSION "8cd96cb440f1f2fac3a154227937be39d06efa53")
 
-PROJECT(glut VERSION ${GLUT_VERSION} LANGUAGES C)
+PROJECT(glut LANGUAGES C)
 
 # Try to download the source from the internet if no source folder is specified.
 IF(NOT GLUT_SOURCE_DIR)

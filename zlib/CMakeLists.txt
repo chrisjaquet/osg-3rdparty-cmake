@@ -13,7 +13,7 @@ ELSE()
   SET(_ZLIB_SOURCE_DIR ${ZLIB_SOURCE_DIR})
 
   # parse the full version number from zlib.h and include in ZLIB_FULL_VERSION
-  FILE(READ ${ZLIB_SOURCE_DIR}/zlib.h _zlib_h_contents)
+  FILE(READ ${_ZLIB_SOURCE_DIR}/zlib.h _zlib_h_contents)
   STRING(REGEX REPLACE ".*#define[ \t]+ZLIB_VERSION[ \t]+\"([-0-9A-Za-z.]+)\".*" "\\1" ZLIB_FULL_VERSION_DETECTED ${_zlib_h_contents})
 
   IF(NOT ${ZLIB_FULL_VERSION_DETECTED} STREQUAL ${ZLIB_VERSION})
@@ -21,6 +21,10 @@ ELSE()
   ENDIF()
 ENDIF()
 SET(ZLIB_SOURCE_DIR ${_ZLIB_SOURCE_DIR} CACHE PATH "Path where to find ZLIB source")
+
+# Use GNUInstallDirs to install libraries into correct
+# locations on all platforms.
+INCLUDE(GNUInstallDirs)
 
 # Configuration options for zlib
 OPTION(ZLIB_USE_ASM686 "Enable building i686 assembly implementation" OFF)
@@ -195,12 +199,12 @@ SET_TARGET_PROPERTIES(zlib PROPERTIES SOVERSION 1)
 IF(NOT CYGWIN)
   # This property causes shared libraries on Linux to have the full version
   # encoded into their final filename.  We disable this on Cygwin because
-  # it causes cygz-${ZLIB_FULL_VERSION}.dll to be created when cygz.dll
+  # it causes cygz-${ZLIB_VERSION}.dll to be created when cygz.dll
   # seems to be the default.
   #
   # This has no effect with MSVC, on that platform the version info for
   # the DLL comes from the resource file win32/zlib1.rc
-  SET_TARGET_PROPERTIES(zlib PROPERTIES ZLIB_VERSION ${ZLIB_FULL_VERSION})
+  SET_TARGET_PROPERTIES(zlib PROPERTIES ZLIB_VERSION ${ZLIB_VERSION})
 ENDIF()
 
 IF(UNIX)
