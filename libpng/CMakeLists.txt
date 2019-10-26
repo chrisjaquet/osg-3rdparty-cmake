@@ -12,36 +12,34 @@ SET(LIBPNG_VERSION "1.6.28")
 
 # Try to download the source from the internet if no source folder is specified.
 IF(NOT LIBPNG_SOURCE_DIR)
-    DownloadAndExtract("http://prdownloads.sourceforge.net/libpng/libpng-${LIBPNG_VERSION}.tar.xz?download"
-        ${CMAKE_CURRENT_SOURCE_DIR}/libpng-${LIBPNG_VERSION}.tar.xz
-        ${CMAKE_CURRENT_BINARY_DIR}
+  DownloadAndExtract("http://prdownloads.sourceforge.net/libpng/libpng-${LIBPNG_VERSION}.tar.xz?download"
+    ${CMAKE_CURRENT_SOURCE_DIR}/libpng-${LIBPNG_VERSION}.tar.xz
+    ${CMAKE_CURRENT_BINARY_DIR}
     )
-    SET(_LIBPNG_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/libpng-${LIBPNG_VERSION})
+  SET(_LIBPNG_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/libpng-${LIBPNG_VERSION})
 ELSE()
-    SET(_LIBPNG_SOURCE_DIR ${LIBPNG_SOURCE_DIR})
+  SET(_LIBPNG_SOURCE_DIR ${LIBPNG_SOURCE_DIR})
 ENDIF()
 SET(LIBPNG_SOURCE_DIR ${_LIBPNG_SOURCE_DIR} CACHE PATH "Path where to find LIBPNG source")
 
 # Check dependencies for LIBPNG
 IF(NOT ZLIB_SOURCE_DIR)
-    MESSAGE(FATAL_ERROR "Error: LIBPNG depends on ZLIB and no ZLIB path has been set")
+  MESSAGE(FATAL_ERROR "Error: LIBPNG depends on ZLIB and no ZLIB path has been set")
 ENDIF()
-
 
 IF(NOT WIN32)
-    FIND_LIBRARY(M_LIBRARY
-        NAMES m
-        PATHS /usr/lib /usr/local/lib
+  FIND_LIBRARY(M_LIBRARY
+    NAMES m
+    PATHS /usr/lib /usr/local/lib
     )
-    IF(NOT M_LIBRARY)
-        MESSAGE(STATUS
-            "math library 'libm' not found - floating point support disabled")
-    ENDIF()
+  IF(NOT M_LIBRARY)
+    MESSAGE(STATUS
+      "math library 'libm' not found - floating point support disabled")
+  ENDIF()
 else()
-    # not needed on windows
-    SET(M_LIBRARY "")
+  # not needed on windows
+  SET(M_LIBRARY "")
 ENDIF()
-
 
 # SET LIBNAME
 SET(PNG_LIB_NAME png)
@@ -57,31 +55,31 @@ CONFIGURE_FILE(${LIBPNG_SOURCE_DIR}/scripts/pnglibconf.h.prebuilt pnglibconf.h @
 
 # OUR SOURCES
 SET(LIBPNG_PUBLIC_HEADERS
-    ${LIBPNG_SOURCE_DIR}/png.h
-    ${LIBPNG_SOURCE_DIR}/pngconf.h
-    ${CMAKE_CURRENT_BINARY_DIR}/pnglibconf.h
-)
+  ${LIBPNG_SOURCE_DIR}/png.h
+  ${LIBPNG_SOURCE_DIR}/pngconf.h
+  ${CMAKE_CURRENT_BINARY_DIR}/pnglibconf.h
+  )
 SET(LIBPNG_SOURCES
-    ${LIBPNG_SOURCE_DIR}/pngdebug.h
-    ${LIBPNG_SOURCE_DIR}/pnginfo.h
-    ${LIBPNG_SOURCE_DIR}/pngpriv.h
-    ${LIBPNG_SOURCE_DIR}/pngstruct.h
-    ${LIBPNG_SOURCE_DIR}/png.c
-    ${LIBPNG_SOURCE_DIR}/pngerror.c
-    ${LIBPNG_SOURCE_DIR}/pngget.c
-    ${LIBPNG_SOURCE_DIR}/pngmem.c
-    ${LIBPNG_SOURCE_DIR}/pngpread.c
-    ${LIBPNG_SOURCE_DIR}/pngread.c
-    ${LIBPNG_SOURCE_DIR}/pngrio.c
-    ${LIBPNG_SOURCE_DIR}/pngrtran.c
-    ${LIBPNG_SOURCE_DIR}/pngrutil.c
-    ${LIBPNG_SOURCE_DIR}/pngset.c
-    ${LIBPNG_SOURCE_DIR}/pngtrans.c
-    ${LIBPNG_SOURCE_DIR}/pngwio.c
-    ${LIBPNG_SOURCE_DIR}/pngwrite.c
-    ${LIBPNG_SOURCE_DIR}/pngwtran.c
-    ${LIBPNG_SOURCE_DIR}/pngwutil.c
-)
+  ${LIBPNG_SOURCE_DIR}/pngdebug.h
+  ${LIBPNG_SOURCE_DIR}/pnginfo.h
+  ${LIBPNG_SOURCE_DIR}/pngpriv.h
+  ${LIBPNG_SOURCE_DIR}/pngstruct.h
+  ${LIBPNG_SOURCE_DIR}/png.c
+  ${LIBPNG_SOURCE_DIR}/pngerror.c
+  ${LIBPNG_SOURCE_DIR}/pngget.c
+  ${LIBPNG_SOURCE_DIR}/pngmem.c
+  ${LIBPNG_SOURCE_DIR}/pngpread.c
+  ${LIBPNG_SOURCE_DIR}/pngread.c
+  ${LIBPNG_SOURCE_DIR}/pngrio.c
+  ${LIBPNG_SOURCE_DIR}/pngrtran.c
+  ${LIBPNG_SOURCE_DIR}/pngrutil.c
+  ${LIBPNG_SOURCE_DIR}/pngset.c
+  ${LIBPNG_SOURCE_DIR}/pngtrans.c
+  ${LIBPNG_SOURCE_DIR}/pngwio.c
+  ${LIBPNG_SOURCE_DIR}/pngwrite.c
+  ${LIBPNG_SOURCE_DIR}/pngwtran.c
+  ${LIBPNG_SOURCE_DIR}/pngwutil.c
+  )
 
 # Dependent include directories
 INCLUDE_DIRECTORIES(${LIBPNG_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${ZLIB_SOURCE_DIR} ${ZLIB_BINARY_DIR})
@@ -89,40 +87,41 @@ INCLUDE_DIRECTORIES(${LIBPNG_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${ZLIB_SOUR
 # SOME NEEDED DEFINITIONS
 
 IF(MSVC)
-    ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS -DPNG_CONFIGURE_LIBPNG -DPNG_DEBUG -DPNG_BUILD_DLL)
+  ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS -DPNG_CONFIGURE_LIBPNG -DPNG_DEBUG -DPNG_BUILD_DLL)
 ENDIF(MSVC)
 
 ADD_LIBRARY(${PNG_LIB_NAME} SHARED ${LIBPNG_SOURCES} ${LIBPNG_PUBLIC_HEADERS})
 
 IF(MSVC)
-    # msvc does not append 'lib' - do it here to have consistent name
-    SET_TARGET_PROPERTIES(${PNG_LIB_NAME} PROPERTIES PREFIX "lib")
-    SET_TARGET_PROPERTIES(${PNG_LIB_NAME} PROPERTIES IMPORT_PREFIX "lib")
+  # msvc does not append 'lib' - do it here to have consistent name
+  SET_TARGET_PROPERTIES(${PNG_LIB_NAME} PROPERTIES PREFIX "lib")
+  SET_TARGET_PROPERTIES(${PNG_LIB_NAME} PROPERTIES IMPORT_PREFIX "lib")
 ENDIF()
 
 IF(MINGW)
-    # Static library name
-    SET_TARGET_PROPERTIES(${PNG_LIB_NAME} PROPERTIES IMPORT_SUFFIX ".a")
-    # Shared library name
-    SET_TARGET_PROPERTIES(${PNG_LIB_NAME} PROPERTIES SUFFIX ".dll")
+  # Static library name
+  SET_TARGET_PROPERTIES(${PNG_LIB_NAME} PROPERTIES IMPORT_SUFFIX ".a")
+  # Shared library name
+  SET_TARGET_PROPERTIES(${PNG_LIB_NAME} PROPERTIES SUFFIX ".dll")
 ENDIF(MINGW)
 
 TARGET_LINK_LIBRARIES(${PNG_LIB_NAME} zlib ${M_LIBRARY})
 
 IF(WIN32)
-    SET_TARGET_PROPERTIES(${PNG_LIB_NAME} PROPERTIES DEFINE_SYMBOL PNG_BUILD_DLL)
+  SET_TARGET_PROPERTIES(${PNG_LIB_NAME} PROPERTIES DEFINE_SYMBOL PNG_BUILD_DLL)
 ENDIF()
 
 # INSTALL
 IF(NOT SKIP_INSTALL_LIBRARIES AND NOT SKIP_INSTALL_ALL )
-    INSTALL(TARGETS ${PNG_LIB_NAME}
-            RUNTIME DESTINATION ${EXECUTABLE_OUTPUT_PATH}
-            LIBRARY DESTINATION ${LIBRARY_OUTPUT_PATH}
-            ARCHIVE DESTINATION ${ARCHIVE_OUTPUT_PATH})
+  INSTALL(TARGETS ${PNG_LIB_NAME}
+    RUNTIME DESTINATION ${EXECUTABLE_OUTPUT_PATH}
+    LIBRARY DESTINATION ${LIBRARY_OUTPUT_PATH}
+    ARCHIVE DESTINATION ${ARCHIVE_OUTPUT_PATH}
+    )
 ENDIF()
 
 
 IF(NOT SKIP_INSTALL_HEADERS AND NOT SKIP_INSTALL_ALL )
-    INSTALL(FILES ${LIBPNG_PUBLIC_HEADERS} DESTINATION ${INCLUDE_OUTPUT_PATH})
+  INSTALL(FILES ${LIBPNG_PUBLIC_HEADERS} DESTINATION ${INCLUDE_OUTPUT_PATH})
 ENDIF()
 

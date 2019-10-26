@@ -5,106 +5,105 @@ SET(LIBTIFF_VERSION "4.0.7")
 
 # Check dependencies for LIBTIFF
 IF(NOT ZLIB_SOURCE_DIR)
-    MESSAGE(FATAL_ERROR "Error: LIBTIFF depends on ZLIB and no ZLIB path has been set")
+  MESSAGE(FATAL_ERROR "Error: LIBTIFF depends on ZLIB and no ZLIB path has been set")
 ENDIF()
 
 IF(NOT LIBJPEG_SOURCE_DIR)
-    MESSAGE(FATAL_ERROR "Error: LIBTIFF depends on LIBJPEG and no LIBJPEG path has been set")
+  MESSAGE(FATAL_ERROR "Error: LIBTIFF depends on LIBJPEG and no LIBJPEG path has been set")
 ENDIF()
 
 # Try to download the source from the internet if no source folder is specified.
 IF(NOT LIBTIFF_SOURCE_DIR)
-    #SET(LIBTIFF_DOWNLOAD_SITE "ftp://ftp.remotesensing.org/pub/libtiff/tiff-${LIBTIFF_VERSION}.tar.gz") # Primary site
-    SET(LIBTIFF_DOWNLOAD_SITE "http://download.osgeo.org/libtiff/tiff-${LIBTIFF_VERSION}.tar.gz") # Backup site
-    DownloadAndExtract(${LIBTIFF_DOWNLOAD_SITE}
-        ${CMAKE_CURRENT_SOURCE_DIR}/tiff-${LIBTIFF_VERSION}.tar.gz
-        ${CMAKE_CURRENT_BINARY_DIR}
+  #SET(LIBTIFF_DOWNLOAD_SITE "ftp://ftp.remotesensing.org/pub/libtiff/tiff-${LIBTIFF_VERSION}.tar.gz") # Primary site
+  SET(LIBTIFF_DOWNLOAD_SITE "http://download.osgeo.org/libtiff/tiff-${LIBTIFF_VERSION}.tar.gz") # Backup site
+  DownloadAndExtract(${LIBTIFF_DOWNLOAD_SITE}
+    ${CMAKE_CURRENT_SOURCE_DIR}/tiff-${LIBTIFF_VERSION}.tar.gz
+    ${CMAKE_CURRENT_BINARY_DIR}
     )
-    SET(_LIBTIFF_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/tiff-${LIBTIFF_VERSION})
+  SET(_LIBTIFF_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/tiff-${LIBTIFF_VERSION})
 ELSE()
-    SET(_LIBTIFF_SOURCE_DIR ${LIBTIFF_SOURCE_DIR})
+  SET(_LIBTIFF_SOURCE_DIR ${LIBTIFF_SOURCE_DIR})
 ENDIF()
 SET(LIBTIFF_SOURCE_DIR ${_LIBTIFF_SOURCE_DIR} CACHE PATH "Path where to find LIBTIFF source")
 
 IF(MSVC)
-    SET(tif_config "${LIBTIFF_SOURCE_DIR}/libtiff/tif_config.vc.h")
-    SET(tiffconf "${LIBTIFF_SOURCE_DIR}/libtiff/tiffconf.vc.h")
+  SET(tif_config "${LIBTIFF_SOURCE_DIR}/libtiff/tif_config.vc.h")
+  SET(tiffconf "${LIBTIFF_SOURCE_DIR}/libtiff/tiffconf.vc.h")
 ENDIF()
 
 IF(MINGW)
-    SET(tif_config "${CMAKE_CURRENT_SOURCE_DIR}/tif_config.mingw.h")
-    SET(tiffconf "${CMAKE_CURRENT_SOURCE_DIR}/tiffconf.mingw.h")
+  SET(tif_config "${CMAKE_CURRENT_SOURCE_DIR}/tif_config.mingw.h")
+  SET(tiffconf "${CMAKE_CURRENT_SOURCE_DIR}/tiffconf.mingw.h")
 ENDIF()
 
 CONFIGURE_FILE(${tif_config} tif_config.h @ONLY)
 CONFIGURE_FILE(${tiffconf} tiffconf.h @ONLY)
 
-
 SET(_LIBTIFF_VERSION_FILE "${LIBTIFF_SOURCE_DIR}/VERSION")
-    
-IF(EXISTS "${_LIBTIFF_VERSION_FILE}") 
-    FILE(STRINGS "${_LIBTIFF_VERSION_FILE}" LIBTIFF_VERSION REGEX "[0-9]+\\.[0-9]+\\.[0-9]+")
+
+IF(EXISTS "${_LIBTIFF_VERSION_FILE}")
+  FILE(STRINGS "${_LIBTIFF_VERSION_FILE}" LIBTIFF_VERSION REGEX "[0-9]+\\.[0-9]+\\.[0-9]+")
 ENDIF()
 
 
 SET(LIBTIFF_PUBLIC_HEADERS
-    ${CMAKE_CURRENT_BINARY_DIR}/tiffconf.h
+  ${CMAKE_CURRENT_BINARY_DIR}/tiffconf.h
 
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tiff.h
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tiffio.h
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tiffvers.h
-)
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tiff.h
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tiffio.h
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tiffvers.h
+  )
 
 SET(LIBTIFF_PRIVATE_HEADERS
-    ${CMAKE_CURRENT_BINARY_DIR}/tif_config.h
+  ${CMAKE_CURRENT_BINARY_DIR}/tif_config.h
 
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_dir.h
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_fax3.h
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_predict.h
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tiffiop.h
-    ${LIBTIFF_SOURCE_DIR}/libtiff/t4.h
-    ${LIBTIFF_SOURCE_DIR}/libtiff/uvcode.h
-)
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_dir.h
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_fax3.h
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_predict.h
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tiffiop.h
+  ${LIBTIFF_SOURCE_DIR}/libtiff/t4.h
+  ${LIBTIFF_SOURCE_DIR}/libtiff/uvcode.h
+  )
 
 SET(LIBTIFF_SRCS
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_aux.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_close.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_codec.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_color.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_compress.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_dir.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_dirinfo.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_dirread.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_dirwrite.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_dumpmode.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_error.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_extension.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_fax3.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_fax3sm.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_flush.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_getimage.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_jbig.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_jpeg.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_luv.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_lzw.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_next.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_ojpeg.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_open.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_packbits.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_pixarlog.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_predict.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_print.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_read.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_strip.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_swab.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_thunder.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_tile.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_version.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_warning.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_win32.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_write.c
-    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_zip.c
-)
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_aux.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_close.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_codec.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_color.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_compress.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_dir.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_dirinfo.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_dirread.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_dirwrite.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_dumpmode.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_error.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_extension.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_fax3.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_fax3sm.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_flush.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_getimage.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_jbig.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_jpeg.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_luv.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_lzw.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_next.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_ojpeg.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_open.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_packbits.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_pixarlog.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_predict.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_print.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_read.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_strip.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_swab.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_thunder.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_tile.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_version.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_warning.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_win32.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_write.c
+  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_zip.c
+  )
 
 # Dependent include files
 INCLUDE_DIRECTORIES("${LIBTIFF_SOURCE_DIR}/libtiff" ${CMAKE_CURRENT_BINARY_DIR})
@@ -140,42 +139,43 @@ int main(void) {
   HAVE_SNPRINTF)
 
 IF(HAVE_SNPRINTF)
-    ADD_DEFINITIONS(-DHAVE_SNPRINTF)
+  ADD_DEFINITIONS(-DHAVE_SNPRINTF)
 ENDIF()
-    
+
 IF(MSVC)
-    SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /Gy /Oi")
-    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4244")
-    ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS -D_LIB)
-    SET(CMAKE_DEBUG_POSTFIX "d_i")
-    SET(CMAKE_RELEASE_POSTFIX "_i")
+  SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /Gy /Oi")
+  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4244")
+  ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS -D_LIB)
+  SET(CMAKE_DEBUG_POSTFIX "d_i")
+  SET(CMAKE_RELEASE_POSTFIX "_i")
 ENDIF(MSVC)
 
 ADD_LIBRARY(${TARGET_LIB} STATIC ${LIBTIFF_SRCS} ${LIBTIFF_PRIVATE_HEADERS} ${LIBTIFF_PUBLIC_HEADERS})
 target_link_libraries(${TARGET_LIB} ${ZLIB_LIBRARIES} ${JPEG_LIBRARIES})
 
 IF(MINGW)
-    # Static library name
-    SET_TARGET_PROPERTIES(${TARGET_LIB} PROPERTIES PREFIX "")
-    SET_TARGET_PROPERTIES(${TARGET_LIB} PROPERTIES SUFFIX ".a")
+  # Static library name
+  SET_TARGET_PROPERTIES(${TARGET_LIB} PROPERTIES PREFIX "")
+  SET_TARGET_PROPERTIES(${TARGET_LIB} PROPERTIES SUFFIX ".a")
 ENDIF()
 
 ADD_DEPENDENCIES(${TARGET_LIB}
-    zlib
-)
+  zlib
+  )
 ADD_DEPENDENCIES(${TARGET_LIB}
-    jpeg
-)
+  jpeg
+  )
 # Runtime equals DLL-files
 # Archive equals static libraries
 # Library equals module libraries
 IF(NOT SKIP_INSTALL_LIBRARIES AND NOT SKIP_INSTALL_ALL )
-    INSTALL(TARGETS ${TARGET_LIB}
-        RUNTIME DESTINATION ${EXECUTABLE_OUTPUT_PATH}
-        LIBRARY DESTINATION ${LIBRARY_OUTPUT_PATH}
-        ARCHIVE DESTINATION ${ARCHIVE_OUTPUT_PATH})
+  INSTALL(TARGETS ${TARGET_LIB}
+    RUNTIME DESTINATION ${EXECUTABLE_OUTPUT_PATH}
+    LIBRARY DESTINATION ${LIBRARY_OUTPUT_PATH}
+    ARCHIVE DESTINATION ${ARCHIVE_OUTPUT_PATH}
+    )
 ENDIF()
 
 IF(NOT SKIP_INSTALL_HEADERS AND NOT SKIP_INSTALL_ALL )
-    INSTALL(FILES ${LIBTIFF_PUBLIC_HEADERS} DESTINATION ${INCLUDE_OUTPUT_PATH})
+  INSTALL(FILES ${LIBTIFF_PUBLIC_HEADERS} DESTINATION ${INCLUDE_OUTPUT_PATH})
 ENDIF()

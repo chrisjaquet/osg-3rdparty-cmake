@@ -12,33 +12,36 @@ IF(CMAKE_CONFIGURATION_TYPES)
   SET(CMAKE_CONFIGURATION_TYPES Debug Release)
   SET(CMAKE_CONFIGURATION_TYPES "${CMAKE_CONFIGURATION_TYPES}" CACHE STRING
     "Reset the configurations to what we need"
-    FORCE)
+    FORCE
+    )
 ENDIF()
 
 # Determine architecture bitness
 IF(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-    SET(BITS "x64")
+  SET(BITS "x64")
 ELSEIF (${CMAKE_SIZEOF_VOID_P} EQUAL 4)
-    SET(BITS "x86")
+  SET(BITS "x86")
 ENDIF()
 
 # Determine compiler name (and version for VS)
 IF (MSVC)
-    IF (${MSVC_VERSION} EQUAL 1600)
-        SET(TOOLSET "v100") # Visual Studio 2010
-    ELSEIF (${MSVC_VERSION} EQUAL 1700)
-        SET(TOOLSET "v110") # Visual Studio 2012
-    ELSEIF (${MSVC_VERSION} EQUAL 1800)
-        SET(TOOLSET "v120") # Visual Studio 2013
-    ELSEIF (${MSVC_VERSION} EQUAL 1900)
-        SET(TOOLSET "v140") # Visual Studio 2015
-    ELSEIF (${MSVC_VERSION} EQUAL 1910)
-        SET(TOOLSET "v141") # Visual Studio 2017
-    ENDIF()
+  IF (${MSVC_VERSION} EQUAL 1600)
+    SET(TOOLSET "v100") # Visual Studio 2010
+  ELSEIF (${MSVC_VERSION} EQUAL 1700)
+    SET(TOOLSET "v110") # Visual Studio 2012
+  ELSEIF (${MSVC_VERSION} EQUAL 1800)
+    SET(TOOLSET "v120") # Visual Studio 2013
+  ELSEIF (${MSVC_VERSION} EQUAL 1900)
+    SET(TOOLSET "v140") # Visual Studio 2015
+  ELSEIF ((${MSVC_VERSION} GREATER_EQUAL 1910) AND (${MSVC_VERSION} LESS_EQUAL 1919))
+    SET(TOOLSET "v141") # Visual Studio 2017
+  ELSEIF ((${MSVC_VERSION} GREATER_EQUAL 1920) AND (${MSVC_VERSION} LESS_EQUAL 1929))
+    SET(TOOLSET "v142") # Visual Studio 2019
+  ENDIF()
 ELSEIF(MINGW)
-    SET(TOOLSET "mingw")
+  SET(TOOLSET "mingw")
 ELSE()
-    MESSAGE(FATAL_ERROR "Unknown compiler/toolset being used.")
+  MESSAGE(FATAL_ERROR "Unknown compiler/toolset being used.")
 ENDIF()
 
 # Output root directory name
